@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+<title>oubaZ · Terminal WMS</title>
+<meta name="description" content="Terminal noteur Maroc Express — Application de logistique et gestion d'entrepôt" />
+<meta name="theme-color" content="#0A1428" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="assets/icon-192.png" />
+<link rel="apple-touch-icon" href="assets/icon-192.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="oubaZ" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<div id="app">
+
+  <!-- ===================== SPLASH ===================== -->
+  <div id="screen-splash" class="screen splash-screen">
+    <div class="splash-bg" style="background-image:url('assets/splash-bg.png')"></div>
+    <div class="splash-overlay"></div>
+    <div class="splash-content">
+      <div class="splash-logo"><img src="assets/logo.jpg" alt="oubaZ" /></div>
+      <div class="splash-spinner"></div>
+    </div>
+  </div>
+
+  <!-- ===================== LOGIN ===================== -->
+  <div id="screen-login" class="screen bg-screen" data-dim="0.85">
+    <div class="bg-image" style="background-image:url('assets/warehouse-bg.jpg')"></div>
+    <div class="bg-gradient"></div>
+    <button id="login-settings-btn" class="icon-btn login-settings-btn" title="Paramètres serveur" aria-label="Paramètres serveur">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M19.14,12.94c0.04,-0.3 0.06,-0.61 0.06,-0.94c0,-0.32 -0.02,-0.64 -0.07,-0.94l2.03,-1.58c0.18,-0.14 0.23,-0.41 0.12,-0.61l-1.92,-3.32c-0.12,-0.22 -0.37,-0.29 -0.59,-0.22l-2.39,0.96c-0.5,-0.38 -1.03,-0.7 -1.62,-0.94L14.4,2.81c-0.04,-0.24 -0.24,-0.41 -0.48,-0.41h-3.84c-0.24,0 -0.43,0.17 -0.47,0.41L9.25,5.35C8.66,5.59 8.12,5.92 7.63,6.29L5.24,5.33c-0.22,-0.08 -0.47,0 -0.59,0.22L2.74,8.87C2.62,9.08 2.66,9.34 2.86,9.48l2.03,1.58C4.84,11.36 4.8,11.69 4.8,12s0.02,0.64 0.07,0.94l-2.03,1.58c-0.18,0.14 -0.23,0.41 -0.12,0.61l1.92,3.32c0.12,0.22 0.37,0.29 0.59,0.22l2.39,-0.96c0.5,0.38 1.03,0.7 1.62,0.94l0.36,2.54c0.05,0.24 0.24,0.41 0.48,0.41h3.84c0.24,0 0.44,-0.17 0.47,-0.41l0.36,-2.54c0.59,-0.24 1.13,-0.56 1.62,-0.94l2.39,0.96c0.22,0.08 0.47,0 0.59,-0.22l1.92,-3.32c0.12,-0.22 0.07,-0.47 -0.12,-0.61L19.14,12.94z M12,15.6c-1.98,0 -3.6,-1.62 -3.6,-3.6s1.62,-3.6 3.6,-3.6s3.6,1.62 3.6,3.6S13.98,15.6 12,15.6z"/></svg>
+    </button>
+    <div class="screen-content login-content">
+      <div class="login-spacer" style="flex:0.8"></div>
+
+      <div class="login-header">
+        <div class="login-logo-badge"><img src="assets/logo.jpg" alt="Logo oubaZ" /></div>
+        <h1 class="login-title">oubaZ</h1>
+        <p class="login-subtitle">Terminal noteur Maroc Express</p>
+      </div>
+
+      <div class="login-spacer" style="flex:1"></div>
+
+      <div id="pin-block" class="pin-block">
+        <p class="pin-label">CODE D'ACCÈS NOTEUR</p>
+        <div id="pin-dots" class="pin-dots">
+          <span class="pin-dot"></span>
+          <span class="pin-dot"></span>
+          <span class="pin-dot"></span>
+          <span class="pin-dot"></span>
+        </div>
+        <p id="pin-message" class="pin-message"></p>
+      </div>
+
+      <div class="login-spacer-small"></div>
+
+      <div class="keypad">
+        <div class="keypad-row">
+          <button class="key" data-key="1">1</button>
+          <button class="key" data-key="2">2</button>
+          <button class="key" data-key="3">3</button>
+        </div>
+        <div class="keypad-row">
+          <button class="key" data-key="4">4</button>
+          <button class="key" data-key="5">5</button>
+          <button class="key" data-key="6">6</button>
+        </div>
+        <div class="keypad-row">
+          <button class="key" data-key="7">7</button>
+          <button class="key" data-key="8">8</button>
+          <button class="key" data-key="9">9</button>
+        </div>
+        <div class="keypad-row">
+          <button class="key key-action" data-key="clear">Effacer</button>
+          <button class="key" data-key="0">0</button>
+          <button class="key key-action" data-key="back">⌫</button>
+        </div>
+      </div>
+
+      <div class="login-spacer" style="flex:0.4"></div>
+    </div>
+  </div>
+
+  <!-- ===================== HOME ===================== -->
+  <div id="screen-home" class="screen bg-screen" data-dim="0.82">
+    <div class="bg-image" style="background-image:url('assets/warehouse-bg.jpg')"></div>
+    <div class="bg-gradient"></div>
+    <div class="screen-content home-content">
+      <div class="home-header">
+        <div>
+          <div class="home-greeting"><span class="white">Bonjour, </span><span id="home-operator-name" class="cyan">Sara</span></div>
+          <p class="home-sub">Terminal WMS Mobile</p>
+        </div>
+        <button id="home-logout-btn" class="icon-btn danger-btn" title="Déconnexion" aria-label="Déconnexion">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+        </button>
+      </div>
+
+      <button id="server-status-badge" class="server-badge" data-state="unknown">
+        <span class="server-dot"></span>
+        <span id="server-status-text" class="server-text">Mode Stockage Local</span>
+        <svg viewBox="0 0 24 24" width="13" height="13" class="server-icon"><path fill="currentColor" d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+      </button>
+
+      <div class="home-titles">
+        <h2>Sélectionnez une action</h2>
+        <p>Enregistrez vos flux d'entrepôt en temps réel</p>
+      </div>
+
+      <div class="tile-grid">
+        <button class="tile" data-action="reception" data-testtag="tile_reception" style="--accent:#2563EB">
+          <span class="tile-badge"><img src="assets/img-reception.jpg" alt="Réception" /></span>
+          <span class="tile-title">Réception</span>
+          <span class="tile-sub">Arrivée stock</span>
+        </button>
+        <button class="tile" data-action="sortie" data-testtag="tile_sortie" style="--accent:#EA580C">
+          <span class="tile-badge"><img src="assets/img-sortie.jpg" alt="Sortie" /></span>
+          <span class="tile-title">Sortie</span>
+          <span class="tile-sub">Chargement</span>
+        </button>
+        <button class="tile" data-action="retour" data-testtag="tile_retour" style="--accent:#DC2626">
+          <span class="tile-badge"><img src="assets/img-retour.jpg" alt="Retour" /></span>
+          <span class="tile-title">Retour</span>
+          <span class="tile-sub">Grading A/B/C/D</span>
+        </button>
+        <button class="tile" data-action="inventaire" data-testtag="tile_inventaire" style="--accent:#16A34A">
+          <span class="tile-badge"><img src="assets/img-inventaire.jpg" alt="Inventaire" /></span>
+          <span class="tile-title">Inventaire</span>
+          <span class="tile-sub">Comptage physique</span>
+        </button>
+      </div>
+    </div>
+    <div id="bottom-nav-home" class="bottom-nav-slot"></div>
+  </div>
+
+  <!-- ===================== OPERATION FORM ===================== -->
+  <div id="screen-form" class="screen bg-screen" data-dim="0.88">
+    <div class="bg-image" style="background-image:url('assets/warehouse-bg.jpg')"></div>
+    <div class="bg-gradient"></div>
+    <div class="screen-content form-content">
+      <div class="form-header">
+        <button id="form-back-btn" class="square-btn" aria-label="Retour">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg>
+        </button>
+        <div class="form-header-text">
+          <h2 id="form-title">Réception</h2>
+          <p id="form-subtitle">Entrée de stock</p>
+        </div>
+      </div>
+
+      <div class="form-body">
+        <!-- Bandeau container (réception uniquement) : visible seulement
+             quand un container a été pris en charge — voir renderForm(). -->
+        <div id="container-banner" class="field-block" hidden style="background:#0E6B7614;border:1px solid #0E6B7640;border-radius:10px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <div>
+            <div style="font-size:11px;letter-spacing:.04em;color:#5B6670;font-weight:600">CONTAINER EN COURS</div>
+            <div id="container-banner-code" style="font-weight:700;font-family:'SFMono-Regular',Consolas,monospace"></div>
+            <div id="container-banner-count" class="muted" style="font-size:12px"></div>
+          </div>
+          <button id="container-finish-btn" type="button" class="outline-btn" style="padding:8px 12px;font-size:13px;white-space:nowrap">Terminer</button>
+        </div>
+
+        <!-- Référence -->
+        <div class="field-block">
+          <label class="field-label">RÉFÉRENCE PRODUIT</label>
+          <div class="input-with-icon">
+            <input id="ref-input" type="text" class="text-input" placeholder="Ex: 55P8K, 43S5K, RAC-12..." autocomplete="off" />
+            <button id="ref-clear-btn" class="input-clear-btn" aria-label="Effacer" hidden>
+              <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+          </div>
+          <p id="ref-error" class="field-error" hidden></p>
+          <div id="ref-suggestions" class="suggestions-panel" hidden>
+            <div class="suggestions-header">
+              <span id="ref-suggestions-count" class="cyan-text">0 référence(s)</span>
+              <span id="ref-suggestions-close" class="suggestions-close">✕</span>
+            </div>
+            <div id="ref-suggestions-list" class="suggestions-list"></div>
+          </div>
+        </div>
+
+        <!-- Quantité -->
+        <div class="field-block">
+          <label id="qty-label" class="field-label">QUANTITÉ</label>
+          <input id="qty-input" type="text" inputmode="numeric" class="text-input" placeholder="Ex: 10" />
+          <p id="qty-error" class="field-error" hidden></p>
+        </div>
+
+        <!-- Emplacement -->
+        <div class="field-block">
+          <label class="field-label">EMPLACEMENT</label>
+          <div class="loc-mode-row">
+            <button id="loc-mode-default" class="loc-mode-btn active" data-testtag="location_mode_default">
+              <span class="radio-dot"></span> Par défaut
+            </button>
+            <button id="loc-mode-defined" class="loc-mode-btn" data-testtag="location_mode_defined">
+              <span class="radio-dot"></span> Saisie
+            </button>
+          </div>
+
+          <div id="loc-default-panel" class="loc-default-panel">
+            <div class="loc-default-header">
+              <span class="cyan-text small-caps">ZONE DE STOCKAGE</span>
+              <span id="loc-selected-level" class="white-text">Sélection : A</span>
+            </div>
+            <div class="level-row">
+              <button class="level-btn active" data-level="A" data-testtag="level_preset_A">
+                <span class="level-code">A</span><span class="level-tag">Zone A</span>
+              </button>
+              <button class="level-btn" data-level="B" data-testtag="level_preset_B">
+                <span class="level-code">B</span><span class="level-tag">Zone B</span>
+              </button>
+              <button class="level-btn" data-level="C" data-testtag="level_preset_C">
+                <span class="level-code">C</span><span class="level-tag">Zone C</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="loc-defined-panel" class="loc-defined-panel" hidden>
+            <input id="loc-input" type="text" class="text-input mono" placeholder="Ex: A1, B7, C14..." autocomplete="off" />
+            <div id="loc-suggestions" class="suggestions-panel" hidden>
+              <div id="loc-suggestions-list" class="suggestions-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expédition (sortie uniquement) -->
+        <div id="truck-field-block" class="field-block" hidden>
+          <label class="field-label">EXPÉDITION</label>
+          <div class="segmented">
+            <button class="segment active" data-truck="Affrètement">Affrètement</button>
+            <button class="segment" data-truck="Messagerie">Messagerie</button>
+            <button class="segment" data-truck="Enlèvement">Enlèvement</button>
+          </div>
+        </div>
+
+        <!-- Grade (retour uniquement) -->
+        <div id="grade-field-block" class="field-block" hidden>
+          <label class="field-label">GRADE DU RETOUR</label>
+          <div class="grade-row">
+            <button class="grade-btn active" data-grade="A" style="--grade-color:#10B981">
+              <span class="grade-letter">A</span><span class="grade-tag">Stock</span>
+            </button>
+            <button class="grade-btn" data-grade="B" style="--grade-color:#F59E0B">
+              <span class="grade-letter">B</span><span class="grade-tag">Maint. emb.</span>
+            </button>
+            <button class="grade-btn" data-grade="C" style="--grade-color:#38BDF8">
+              <span class="grade-letter">C</span><span class="grade-tag">Pour pièce</span>
+            </button>
+            <button class="grade-btn" data-grade="D" style="--grade-color:#EF4444">
+              <span class="grade-letter">D</span><span class="grade-tag">Abîmé</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Observations -->
+        <div class="field-block">
+          <label class="field-label">OBSERVATIONS</label>
+          <textarea id="notes-input" class="text-input textarea" rows="3" placeholder="Remarques, n° bon livraison, scellé..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button id="submit-op-btn" class="primary-btn">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>Valider l'opération</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SUCCESS ===================== -->
+  <div id="screen-success" class="screen bg-screen" data-dim="0.88">
+    <div class="bg-image" style="background-image:url('assets/warehouse-bg.jpg')"></div>
+    <div class="bg-gradient"></div>
+    <div class="screen-content success-content">
+      <div class="success-ring">
+        <svg viewBox="0 0 24 24" width="46" height="46"><path fill="#10B981" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      </div>
+      <h2 class="success-title">Opération enregistrée !</h2>
+      <p class="success-sub">Enregistrée avec succès</p>
+
+      <div class="success-card" id="success-card">
+        <!-- filled by JS -->
+      </div>
+
+      <button id="success-repeat-btn" class="primary-btn wide">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>
+        <span>Nouvelle opération</span>
+      </button>
+      <button id="success-home-btn" class="secondary-btn wide">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span>Retour au tableau de bord</span>
+      </button>
+      <button id="success-finish-container-btn" class="secondary-btn wide" hidden>
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        <span>Terminer ce container</span>
+      </button>
+      <button id="success-cancel-btn" class="text-btn danger">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        <span>Annuler cet ajout (erreur de saisie)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================== HISTORY ===================== -->
+  <div id="screen-history" class="screen bg-screen" data-dim="0.90">
+    <div class="bg-image" style="background-image:url('assets/warehouse-bg.jpg')"></div>
+    <div class="bg-gradient"></div>
+    <div class="screen-content history-content">
+      <div class="history-header">
+        <h2>Historique des opérations</h2>
+        <p id="history-count" class="cyan-text">0 opération(s) trouvée(s)</p>
+      </div>
+
+      <div class="history-toolbar">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" width="17" height="17" class="search-icon"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input id="history-search" type="text" placeholder="Rechercher (ex: 55P7L, A3...)" />
+          <button id="history-search-clear" class="input-clear-btn" hidden aria-label="Effacer">
+            <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        </div>
+        <button id="history-export-btn" class="export-btn">
+          <svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+          <span>Export</span>
+        </button>
+      </div>
+
+      <div class="filter-chips" id="filter-chips">
+        <button class="chip active" data-filter="ALL">Tous</button>
+        <button class="chip" data-filter="reception">Réceptions</button>
+        <button class="chip" data-filter="sortie">Sorties</button>
+        <button class="chip" data-filter="retour">Retours</button>
+        <button class="chip" data-filter="inventaire">Inventaires</button>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table class="ops-table">
+            <thead>
+              <tr>
+                <th style="width:140px">Date / Heure</th>
+                <th style="width:100px">Type</th>
+                <th style="width:110px">Référence</th>
+                <th style="width:110px">Adresse</th>
+                <th style="width:90px">Quantité</th>
+                <th style="width:80px">Action</th>
+              </tr>
+            </thead>
+            <tbody id="ops-table-body"></tbody>
+          </table>
+          <div id="ops-empty" class="ops-empty" hidden>Aucune opération enregistrée</div>
+        </div>
+      </div>
+    </div>
+    <div id="bottom-nav-history" class="bottom-nav-slot"></div>
+  </div>
+
+  <!-- ===================== PROFILE ===================== -->
+  <div id="screen-profile" class="screen bg-screen" data-dim="0.90">
+    <div class="bg-image" style="background-image:url('assets/warehouse-bg.jpg')"></div>
+    <div class="bg-gradient"></div>
+    <div class="screen-content profile-content">
+      <div class="profile-avatar"><span id="profile-initials">SB</span></div>
+      <h2 id="profile-name" class="profile-name">Sara Bennani</h2>
+      <p id="profile-role" class="profile-role">Opératrice Sorties</p>
+
+      <div class="stat-cards">
+        <div class="stat-card">
+          <span id="profile-total" class="stat-value">4</span>
+          <span class="stat-label">Total opérations</span>
+        </div>
+        <div class="stat-card">
+          <span id="profile-today" class="stat-value cyan-text">0</span>
+          <span class="stat-label">Aujourd'hui</span>
+        </div>
+      </div>
+
+      <div class="activity-card">
+        <h3>Mon activité</h3>
+        <div class="activity-row">
+          <span class="activity-left">
+            <span class="activity-icon" style="background:rgba(30,58,138,.5);color:#38BDF8">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2z"/></svg>
+            </span>
+            <span>Réceptions</span>
+          </span>
+          <span id="activity-reception" class="activity-count" style="color:#38BDF8">12</span>
+        </div>
+        <div class="activity-row">
+          <span class="activity-left">
+            <span class="activity-icon" style="background:rgba(6,78,59,.5);color:#10B981">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM18 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM17 12V9.5h2.5L21 12z"/></svg>
+            </span>
+            <span>Sorties</span>
+          </span>
+          <span id="activity-sortie" class="activity-count" style="color:#10B981">18</span>
+        </div>
+        <div class="activity-row">
+          <span class="activity-left">
+            <span class="activity-icon" style="background:rgba(136,19,55,.5);color:#F43F5E">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12.5 8c-2.65 0-5.05 1-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+            </span>
+            <span>Retours</span>
+          </span>
+          <span id="activity-retour" class="activity-count" style="color:#F43F5E">4</span>
+        </div>
+        <div class="activity-row">
+          <span class="activity-left">
+            <span class="activity-icon" style="background:rgba(76,29,149,.5);color:#A855F7">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z"/></svg>
+            </span>
+            <span>Inventaires</span>
+          </span>
+          <span id="activity-inventaire" class="activity-count" style="color:#A855F7">7</span>
+        </div>
+      </div>
+
+      <div class="sync-card">
+        <div class="sync-left">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="#10B981"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          <div>
+            <p class="sync-title">Système synchronisé</p>
+            <p id="sync-time" class="sync-sub">Dernière synchronisation : --:--</p>
+          </div>
+        </div>
+        <span class="sync-indicator"></span>
+      </div>
+
+      <button id="profile-logout-btn" class="logout-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+        <span>Se déconnecter</span>
+      </button>
+    </div>
+    <div id="bottom-nav-profile" class="bottom-nav-slot"></div>
+  </div>
+
+</div>
+
+<!-- ===================== SERVER CONFIG MODAL ===================== -->
+<div id="server-modal-backdrop" class="modal-backdrop" hidden>
+  <div class="modal server-modal">
+    <div class="modal-icon-badge">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="#00E5FF"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+    </div>
+    <h3 class="modal-title">Liaison Serveur PC (Python)</h3>
+    <p class="modal-sub">Synchronisation automatique en temps réel</p>
+
+    <label id="server-url-label" class="field-label">ADRESSE IP DU SERVEUR PC</label>
+    <div id="server-url-edit" class="input-with-icon">
+      <svg viewBox="0 0 24 24" width="18" height="18" class="input-leading-icon" fill="#00E5FF"><path d="M4 1h16a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1V2a1 1 0 011-1zm0 8h16a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1v-4a1 1 0 011-1zm0 8h16a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1v-4a1 1 0 011-1z"/></svg>
+      <input id="server-url-input" type="text" class="text-input with-leading" placeholder="http://192.168.1.100:8000" />
+    </div>
+    <div id="server-url-readonly" class="input-with-icon" hidden>
+      <svg viewBox="0 0 24 24" width="18" height="18" class="input-leading-icon" fill="#00E5FF"><path d="M12 17a2 2 0 002-2 2 2 0 00-2-2 2 2 0 00-2 2 2 2 0 002 2zm6-9a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V10a2 2 0 012-2h1V6a5 5 0 0110 0v2h1zm-6-5a3 3 0 00-3 3v2h6V6a3 3 0 00-3-3z"/></svg>
+      <span id="server-url-readonly-value" class="text-input with-leading readonly-value"></span>
+    </div>
+
+    <div id="server-status-banner" class="status-banner">
+      <svg id="server-status-icon" viewBox="0 0 24 24" width="24" height="24"></svg>
+      <div>
+        <p id="server-status-banner-title" class="banner-title">Non testé</p>
+        <p id="server-status-banner-sub" class="banner-sub"></p>
+      </div>
+    </div>
+
+    <div class="modal-btn-row">
+      <button id="server-test-btn" class="outline-btn cyan">
+        <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M17.65 6.35A7.958 7.958 0 0012 4a8 8 0 108 8h-2a6 6 0 11-6-6c1.66 0 3.14.69 4.22 1.78L15 11h7V4z"/></svg>
+        <span>Tester lien</span>
+      </button>
+      <button id="server-sync-btn" class="filled-btn green">
+        <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        <span id="server-sync-btn-label">Synchro</span>
+      </button>
+    </div>
+
+    <button id="server-sync-all-btn" class="outline-btn full">
+      <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+      <span>Tout envoyer vers le PC (Synchro intégrale)</span>
+    </button>
+
+    <button id="server-save-close-btn" class="filled-btn cyan full">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      <span>Enregistrer et Fermer</span>
+    </button>
+  </div>
+</div>
+
+<!-- ===================== EDIT OPERATION MODAL ===================== -->
+<div id="edit-modal-backdrop" class="modal-backdrop" hidden>
+  <div class="modal edit-modal">
+    <div class="modal-icon-badge cyan-badge">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="#00E5FF"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+    </div>
+    <h3 class="modal-title">Modifier l'opération</h3>
+    <div class="modal-badge-row">
+      <span id="edit-badge" class="type-badge">Type • #0</span>
+    </div>
+
+    <div class="modal-scroll-body">
+      <label class="field-label">RÉFÉRENCE PRODUIT</label>
+      <input id="edit-reference" type="text" class="text-input" placeholder="Ex: REF-10023, PAL-A..." />
+
+      <label class="field-label" style="margin-top:14px">QUANTITÉ</label>
+      <input id="edit-quantity" type="text" inputmode="numeric" class="text-input" />
+
+      <label class="field-label" style="margin-top:14px">EMPLACEMENT</label>
+      <input id="edit-location" type="text" class="text-input mono" placeholder="Ex: A1, B7, C14..." />
+
+      <div id="edit-truck-block" style="margin-top:14px" hidden>
+        <label class="field-label">EXPÉDITION</label>
+        <div class="segmented" id="edit-truck-segmented">
+          <button class="segment" data-truck="Affrètement">Affrètement</button>
+          <button class="segment" data-truck="Messagerie">Messagerie</button>
+          <button class="segment" data-truck="Enlèvement">Enlèvement</button>
+        </div>
+      </div>
+
+      <div id="edit-grade-block" style="margin-top:14px" hidden>
+        <label class="field-label">GRADE DU RETOUR</label>
+        <div class="grade-row" id="edit-grade-row">
+          <button class="grade-btn" data-grade="A" style="--grade-color:#10B981"><span class="grade-letter">A</span><span class="grade-tag">Stock</span></button>
+          <button class="grade-btn" data-grade="B" style="--grade-color:#F59E0B"><span class="grade-letter">B</span><span class="grade-tag">Maint. emb.</span></button>
+          <button class="grade-btn" data-grade="C" style="--grade-color:#38BDF8"><span class="grade-letter">C</span><span class="grade-tag">Pour pièce</span></button>
+          <button class="grade-btn" data-grade="D" style="--grade-color:#EF4444"><span class="grade-letter">D</span><span class="grade-tag">Abîmé</span></button>
+        </div>
+      </div>
+
+      <label class="field-label" style="margin-top:14px">OBSERVATIONS</label>
+      <textarea id="edit-notes" class="text-input textarea" rows="2" placeholder="Notes, anomalies, remarques..."></textarea>
+    </div>
+
+    <div class="modal-btn-row">
+      <button id="edit-cancel-btn" class="outline-btn">Annuler</button>
+      <button id="edit-save-btn" class="filled-btn cyan">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        <span>Sauvegarder</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CANCEL OPERATION CONFIRM MODAL ===================== -->
+<div id="cancel-modal-backdrop" class="modal-backdrop" hidden>
+  <div class="modal cancel-modal">
+    <div class="modal-icon-badge danger-badge">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="#EF4444"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+    </div>
+    <h3 class="modal-title center">Annuler l'erreur de saisie ?</h3>
+    <p class="modal-desc">Cette opération a été ajoutée par erreur. Elle sera définitivement annulée et retirée des compteurs du système WMS.</p>
+
+    <div class="summary-card" id="cancel-summary"></div>
+
+    <div class="modal-btn-row">
+      <button id="cancel-keep-btn" class="outline-btn">Conserver</button>
+      <button id="cancel-confirm-btn" class="filled-btn red">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        <span>Confirmer l'annulation</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CONTAINER (comptage réception) ===================== -->
+<div id="container-modal-backdrop" class="modal-backdrop" hidden>
+  <div class="modal">
+    <div class="modal-icon-badge">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="#0E6B76"><path d="M2 3h20v4H2V3zm0 6h20v12H2V9zm3 3v6h2v-6H5zm5 0v6h2v-6h-2zm5 0v6h2v-6h-2z"/></svg>
+    </div>
+    <h3 class="modal-title center">Container à réceptionner</h3>
+
+    <div class="field-block">
+      <label class="field-label">N° DE CONTAINER</label>
+      <div style="position:relative">
+        <input id="container-code-input" type="text" class="text-input" placeholder="Ex: MSCU1234567" autocomplete="off" autocapitalize="characters" style="padding-right:46px" />
+        <button id="container-scan-btn" type="button" aria-label="Scanner avec la caméra" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:8px;border:none;background:#0E6B76;display:flex;align-items:center;justify-content:center;cursor:pointer">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/></svg>
+        </button>
+      </div>
+      <p id="container-code-error" class="field-error" hidden></p>
+    </div>
+
+    <div class="modal-btn-row">
+      <button id="container-cancel-btn" class="outline-btn">Annuler</button>
+      <button id="container-claim-btn" class="filled-btn">
+        <span>Prendre en charge</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Écran plein-écran de scan caméra (container). BarcodeDetector natif du
+     navigateur (Chrome/Android) — pas de librairie externe. -->
+<div id="scanner-overlay" hidden style="position:fixed;inset:0;z-index:999;background:#000;display:flex;flex-direction:column">
+  <video id="scanner-video" autoplay playsinline muted style="flex:1;width:100%;object-fit:cover"></video>
+  <div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
+    <div style="width:78%;max-width:340px;aspect-ratio:2.2/1;border:3px solid #22D3B8;border-radius:14px;box-shadow:0 0 0 2000px rgba(0,0,0,0.45)"></div>
+  </div>
+  <div style="position:absolute;top:0;left:0;right:0;padding:16px;display:flex;justify-content:space-between;align-items:center">
+    <span style="color:#fff;font-weight:600;font-size:14px;text-shadow:0 1px 3px rgba(0,0,0,.6)">Visez le numéro du container</span>
+    <button id="scanner-close-btn" type="button" aria-label="Fermer le scanner" style="width:38px;height:38px;border-radius:50%;border:none;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;cursor:pointer">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <p id="scanner-status" style="position:absolute;bottom:24px;left:0;right:0;text-align:center;color:#fff;font-size:13px;padding:0 24px;text-shadow:0 1px 3px rgba(0,0,0,.6)"></p>
+</div>
+
+
+<!-- ===================== ACTION MENU (row ⋮) ===================== -->
+<div id="action-menu-backdrop" class="action-menu-backdrop" hidden>
+  <div id="action-menu" class="action-menu">
+    <button id="action-menu-edit" class="action-menu-item">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="#00E5FF"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+      <span>Modifier</span>
+    </button>
+    <div class="action-menu-divider"></div>
+    <button id="action-menu-cancel" class="action-menu-item danger">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="#EF4444"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+      <span>Annuler</span>
+    </button>
+  </div>
+</div>
+
+<!-- ===================== BOTTOM NAV TEMPLATE ===================== -->
+<template id="bottom-nav-template">
+  <div class="bottom-nav">
+    <button class="nav-tab" data-tab="home">
+      <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Accueil</span>
+    </button>
+    <button class="nav-tab" data-tab="history">
+      <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M13 3a9 9 0 00-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0013 21a9 9 0 000-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8z"/></svg>
+      <span>Historique</span>
+    </button>
+    <button class="nav-tab" data-tab="profile">
+      <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <span>Profil</span>
+    </button>
+  </div>
+</template>
+
+<script src="js/env.js"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/repository.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
